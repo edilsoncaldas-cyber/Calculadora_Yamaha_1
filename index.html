@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora Placar - Prêmio Yamaha SENAI</title>
-    <!-- Tailwind CSS para estilização rápida e moderna -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- SheetJS para leitura de planilhas Excel/CSV diretamente no navegador -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
-    <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (Nunito e DM Sans seguindo o manual SENAI) -->
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
     
     <script>
@@ -18,11 +14,7 @@
             theme: {
                 extend: {
                     colors: {
-                        senai: {
-                            blue: '#164194',
-                            orange: '#E84910',
-                            lightblue: '#008BD2'
-                        }
+                        senai: { blue: '#164194', orange: '#E84910', lightblue: '#008BD2' }
                     },
                     fontFamily: {
                         sans: ['DM Sans', 'sans-serif'],
@@ -41,33 +33,41 @@
             border: 1px solid rgba(255,255,255,0.2);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
-        /* Oculta scrollbar da tabela mas permite scroll */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- Header -->
     <header class="bg-senai-blue text-white shadow-lg relative overflow-hidden">
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-        <div class="max-w-7xl mx-auto px-6 py-8 relative z-10 flex flex-col md:flex-row justify-between items-center">
-            <div>
-                <h1 class="text-3xl font-heading font-extrabold tracking-tight">Prêmio Yamaha SENAI 2026</h1>
-                <p class="text-senai-lightblue font-medium text-lg mt-1">Dashboard "Blue Blood" &bull; Calculadora Oficial</p>
+        <div class="max-w-7xl mx-auto px-6 py-6 relative z-10 flex flex-col lg:flex-row justify-between items-center gap-6">
+            
+            <div class="flex flex-col md:flex-row items-center gap-6 w-full lg:w-auto">
+                <div class="flex items-center gap-5 bg-white/10 px-5 py-3 rounded-xl backdrop-blur-sm border border-white/20">
+                    <img src="logo senai branco.png" alt="Logo SENAI" class="h-10 md:h-12 object-contain" onerror="this.style.display='none'">
+                    
+                    <div class="w-px h-10 bg-white/30"></div>
+                    
+                    <img src="image_9f8551.png" alt="Logo Yamaha" class="h-10 md:h-12 object-contain" onerror="this.style.display='none'">
+                </div>
+                
+                <div class="text-center md:text-left">
+                    <h1 class="text-2xl md:text-3xl font-heading font-extrabold tracking-tight">Prêmio Yamaha SENAI 2026</h1>
+                    <p class="text-senai-lightblue font-medium text-base md:text-lg mt-1">Dashboard "Blue Blood" &bull; Calculadora Oficial</p>
+                </div>
             </div>
-            <div class="mt-4 md:mt-0 flex gap-4">
-                <button onclick="downloadTemplate()" class="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-4 py-2 rounded-lg transition duration-200 font-medium flex items-center gap-2">
+
+            <div class="w-full lg:w-auto flex justify-center lg:justify-end">
+                <button onclick="downloadTemplate()" class="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-5 py-2.5 rounded-lg transition duration-200 font-medium flex items-center justify-center gap-2 w-full md:w-auto">
                     <i class="fa-solid fa-download"></i> Baixar Planilha Modelo
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="flex-grow max-w-7xl mx-auto px-6 py-8 w-full">
         
-        <!-- Upload Section -->
         <section class="glass-panel rounded-2xl p-8 mb-8">
             <h2 class="text-2xl font-heading font-bold text-senai-blue mb-4 flex items-center gap-2">
                 <i class="fa-solid fa-file-import text-senai-orange"></i> Importar Dados
@@ -93,7 +93,6 @@
             </div>
         </section>
 
-        <!-- Scoreboard / Ranking Section -->
         <section id="scoreboardSection" class="hidden glass-panel rounded-2xl overflow-hidden shadow-xl">
             <div class="bg-white px-8 py-6 border-b border-gray-100 flex justify-between items-center">
                 <h2 class="text-2xl font-heading font-bold text-senai-blue flex items-center gap-2">
@@ -116,15 +115,31 @@
                         </tr>
                     </thead>
                     <tbody id="rankingTableBody" class="divide-y divide-gray-100 bg-white">
-                        <!-- Linhas geradas via JavaScript -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </section>
 
     </main>
 
-    <!-- Modal de Detalhes -->
+    <div id="templateModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden transform transition-all">
+            <div class="bg-senai-blue px-6 py-4 flex justify-between items-center">
+                <h3 class="text-white font-heading font-bold text-xl" id="templateModalTitle">Planilha Modelo</h3>
+                <button onclick="closeTemplateModal()" class="text-white/70 hover:text-white transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="p-6">
+                <p class="text-gray-600 mb-4" id="templateModalDesc">Se o seu navegador bloqueou o download automático, não se preocupe! Você pode copiar os dados abaixo e colar na <strong>Célula A1</strong> de uma nova planilha do Excel.</p>
+                <textarea id="csvContent" class="w-full h-32 p-3 text-sm font-mono bg-gray-50 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-senai-lightblue" readonly></textarea>
+                <div class="mt-4 flex justify-end gap-3">
+                    <button onclick="copyCSV()" id="copyBtn" class="bg-senai-orange hover:bg-orange-600 text-white font-medium px-5 py-2 rounded-lg transition flex items-center gap-2">
+                        <i class="fa-solid fa-copy"></i> Copiar para o Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="detailsModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden transform transition-all">
             <div class="bg-senai-blue px-6 py-4 flex justify-between items-center">
@@ -132,17 +147,14 @@
                 <button onclick="closeModal()" class="text-white/70 hover:text-white transition"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             <div class="p-6" id="modalContent">
-                <!-- Preenchido via JS -->
-            </div>
+                </div>
             <div class="bg-gray-50 px-6 py-4 flex justify-end">
                 <button onclick="closeModal()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium px-5 py-2 rounded-lg transition">Fechar</button>
             </div>
         </div>
     </div>
 
-    <!-- Scripts de Lógica (JavaScript) -->
     <script>
-        // Estrutura esperada do Template
         const templateHeaders = [
             "Escola", "Docente", "Coordenador",
             "Percentual_Cronograma_Cumprido", "Docente_Possui_Selo_Bronze", "Nivel_Infraestrutura",
@@ -152,29 +164,70 @@
 
         let currentData = [];
 
-        // Função 1: Baixar Planilha Modelo
         function downloadTemplate() {
-            // Cria um array bidimensional onde a primeira linha são os cabeçalhos
-            const ws_data = [
-                templateHeaders,
-                ["SENAI Vila Leopoldina", "Carlos Silva", "Ana Souza", 100, "Sim", "Prata", 150, 40, 25, 30, 10, 5],
-                ["SENAI Ipiranga", "Marcos Paulo", "João Pedro", 80, "Não", "Bronze", 80, 20, 10, 5, 2, 1]
-            ];
+            let downloadSuccess = true;
             
-            const ws = XLSX.utils.aoa_to_sheet(ws_data);
-            
-            // Ajusta a largura das colunas
-            const wscols = templateHeaders.map(h => ({wch: Math.max(h.length, 15)}));
-            ws['!cols'] = wscols;
+            try {
+                const ws_data = [
+                    templateHeaders,
+                    ["SENAI Vila Leopoldina", "Carlos Silva", "Ana Souza", 100, "Sim", "Prata", 150, 40, 25, 30, 10, 5],
+                    ["SENAI Ipiranga", "Marcos Paulo", "João Pedro", 80, "Não", "Bronze", 80, 20, 10, 5, 2, 1]
+                ];
+                
+                const ws = XLSX.utils.aoa_to_sheet(ws_data);
+                const wscols = templateHeaders.map(h => ({wch: Math.max(h.length, 15)}));
+                ws['!cols'] = wscols;
 
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Dados Prêmio Yamaha");
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "Dados Prêmio Yamaha");
+                
+                XLSX.writeFile(wb, "Modelo_Calculadora_Yamaha_SENAI.xlsx");
+            } catch (e) {
+                console.warn("Download bloqueado.", e);
+                downloadSuccess = false;
+            }
+
+            const csvText = templateHeaders.join("\t") + "\n" +
+                            "SENAI Vila Leopoldina\tCarlos Silva\tAna Souza\t100\tSim\tPrata\t150\t40\t25\t30\t10\t5\n" +
+                            "SENAI Ipiranga\tMarcos Paulo\tJoão Pedro\t80\tNão\tBronze\t80\t20\t10\t5\t2\t1";
             
-            // Inicia o download
-            XLSX.writeFile(wb, "Modelo_Calculadora_Yamaha_SENAI.xlsx");
+            document.getElementById('csvContent').value = csvText;
+            
+            const titleEl = document.getElementById('templateModalTitle');
+            const descEl = document.getElementById('templateModalDesc');
+
+            if (downloadSuccess) {
+                titleEl.innerHTML = '<i class="fa-solid fa-circle-check text-green-400 mr-2"></i> Download Solicitado';
+                descEl.innerHTML = 'O arquivo Excel deve estar baixando automaticamente! <strong>Caso o seu navegador bloqueie</strong>, basta copiar os dados abaixo e colar na Célula A1 de uma nova planilha.';
+            } else {
+                titleEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-yellow-400 mr-2"></i> Download Bloqueado';
+                descEl.innerHTML = 'O ambiente atual bloqueou o download automático. Não se preocupe! <strong>Copie os dados abaixo</strong> e cole na Célula A1 de uma nova planilha do Excel.';
+            }
+
+            setTimeout(() => {
+                document.getElementById('templateModal').classList.remove('hidden');
+            }, 800);
         }
 
-        // Função 2: Lidar com o arquivo selecionado
+        function closeTemplateModal() {
+            document.getElementById('templateModal').classList.add('hidden');
+            const copyBtn = document.getElementById('copyBtn');
+            copyBtn.innerHTML = '<i class="fa-solid fa-copy"></i> Copiar para o Excel';
+            copyBtn.classList.replace('bg-green-600', 'bg-senai-orange');
+            copyBtn.classList.replace('hover:bg-green-700', 'hover:bg-orange-600');
+        }
+
+        function copyCSV() {
+            const textArea = document.getElementById("csvContent");
+            textArea.select();
+            document.execCommand("copy");
+            
+            const copyBtn = document.getElementById('copyBtn');
+            copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copiado!';
+            copyBtn.classList.replace('bg-senai-orange', 'bg-green-600');
+            copyBtn.classList.replace('hover:bg-orange-600', 'hover:bg-green-700');
+        }
+
         function handleFileSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -188,16 +241,12 @@
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, {type: 'array'});
                     
-                    // Pega a primeira aba
                     const firstSheetName = workbook.SheetNames[0];
                     const worksheet = workbook.Sheets[firstSheetName];
                     
-                    // Converte para JSON
                     const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
                     
-                    if (jsonData.length === 0) {
-                        throw new Error("A planilha está vazia.");
-                    }
+                    if (jsonData.length === 0) throw new Error("A planilha está vazia.");
 
                     processData(jsonData);
                     
@@ -220,27 +269,19 @@
             reader.readAsArrayBuffer(file);
         }
 
-        // Função 3: Processar os dados e calcular pontos
         function processData(data) {
             currentData = data.map(row => {
-                // Helpers de leitura segura
-                const getVal = (key) => row[key] || 0;
                 const getStr = (key) => (row[key] || "").toString().trim();
                 const getNum = (key) => parseFloat(row[key]) || 0;
 
-                // --- CÁLCULOS DAS REGRAS DO PRÊMIO ---
-
-                // 1. Performance (Max 300 pts)
                 let cronogramaPerc = getNum("Percentual_Cronograma_Cumprido");
                 if(cronogramaPerc > 100) cronogramaPerc = 100;
                 const ptsCronograma = (cronogramaPerc / 100) * 150;
                 
                 const docenteSelo = getStr("Docente_Possui_Selo_Bronze").toLowerCase();
                 const ptsDocente = (docenteSelo === "sim" || docenteSelo === "s" || docenteSelo === "true") ? 150 : 0;
-                
                 const scorePerformance = ptsCronograma + ptsDocente;
 
-                // 2. Infraestrutura e Alcance
                 const nivelInfra = getStr("Nivel_Infraestrutura").toLowerCase();
                 let ptsInfra = 0;
                 if (nivelInfra === "prata") ptsInfra = 200;
@@ -248,59 +289,40 @@
 
                 const alunosImpactados = getNum("Alunos_SENAI_Impactados");
                 const ptsImpacto = alunosImpactados * 10;
-
                 const scoreInfra = ptsInfra + ptsImpacto;
 
-                // 3. Certificações (Homens/Geral - Valores Base)
                 const talentosHomens = getNum("Alunos_Cadastrados_Banco_Talentos");
                 const ptsTalentos = talentosHomens * 20;
 
                 const certificadosHomens = getNum("Alunos_Certificados_Bronze");
                 const ptsCertificados = certificadosHomens * 50;
-
                 const scoreCertificacao = ptsTalentos + ptsCertificados;
 
-                // 4. BÔNUS BLUE BLOOD (Mulheres - Diversidade Inclusiva)
                 const alunasImpactadas = getNum("ALUNAS_SENAI_Impactadas_BlueBlood");
-                const ptsAlunasImpactadas = alunasImpactadas * 15; // +15 pts
+                const ptsAlunasImpactadas = alunasImpactadas * 15;
 
                 const alunasTalentos = getNum("ALUNAS_Banco_Talentos_BlueBlood");
-                const ptsAlunasTalentos = alunasTalentos * 25; // +25 pts
+                const ptsAlunasTalentos = alunasTalentos * 25;
 
                 const alunasCertificadas = getNum("ALUNAS_Certificadas_Bronze_BlueBlood");
-                const ptsAlunasCertificadas = alunasCertificadas * 60; // +60 pts
+                const ptsAlunasCertificadas = alunasCertificadas * 60;
 
                 const scoreBonusBlueBlood = ptsAlunasImpactadas + ptsAlunasTalentos + ptsAlunasCertificadas;
-
-                // TOTAL
                 const totalScore = scorePerformance + scoreInfra + scoreCertificacao + scoreBonusBlueBlood;
 
                 return {
                     escola: getStr("Escola") || "Escola Desconhecida",
                     docente: getStr("Docente") || "N/A",
                     coordenador: getStr("Coordenador") || "N/A",
-                    scores: {
-                        performance: scorePerformance,
-                        infra: scoreInfra,
-                        certificacao: scoreCertificacao,
-                        bonus: scoreBonusBlueBlood,
-                        total: totalScore
-                    },
-                    details: {
-                        ptsCronograma, ptsDocente, ptsInfra, ptsImpacto,
-                        ptsTalentos, ptsCertificados,
-                        ptsAlunasImpactadas, ptsAlunasTalentos, ptsAlunasCertificadas
-                    }
+                    scores: { performance: scorePerformance, infra: scoreInfra, certificacao: scoreCertificacao, bonus: scoreBonusBlueBlood, total: totalScore },
+                    details: { ptsCronograma, ptsDocente, ptsInfra, ptsImpacto, ptsTalentos, ptsCertificados, ptsAlunasImpactadas, ptsAlunasTalentos, ptsAlunasCertificadas }
                 };
             });
 
-            // Ordenar por pontuação total (Decrescente)
             currentData.sort((a, b) => b.scores.total - a.scores.total);
-            
             renderScoreboard();
         }
 
-        // Função 4: Renderizar o Ranking na Tela
         function renderScoreboard() {
             const tbody = document.getElementById('rankingTableBody');
             tbody.innerHTML = '';
@@ -310,7 +332,6 @@
                 tr.className = "hover:bg-blue-50 transition duration-150 cursor-pointer group";
                 tr.onclick = () => openModal(index);
 
-                // Lógica de ícones para pódio
                 let posBadge = `<span class="text-gray-500 font-bold">${index + 1}º</span>`;
                 if (index === 0) posBadge = `<div class="w-8 h-8 rounded-full bg-yellow-400 text-white flex items-center justify-center font-bold shadow-md"><i class="fa-solid fa-trophy"></i></div>`;
                 else if (index === 1) posBadge = `<div class="w-8 h-8 rounded-full bg-gray-300 text-gray-700 flex items-center justify-center font-bold shadow-md">2º</div>`;
@@ -334,14 +355,12 @@
             document.getElementById('scoreboardSection').classList.remove('hidden');
         }
 
-        // Função 5: Modais de Detalhes
         function openModal(index) {
             const item = currentData[index];
             document.getElementById('modalSchoolName').innerText = item.escola;
             
             const content = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Equipe -->
                     <div class="col-span-1 md:col-span-2 bg-gray-50 p-4 rounded-xl border border-gray-100 flex justify-between items-center">
                         <div>
                             <p class="text-sm text-gray-500">Docente Responsável</p>
@@ -353,7 +372,6 @@
                         </div>
                     </div>
 
-                    <!-- Pilares Base -->
                     <div>
                         <h4 class="font-bold text-gray-700 mb-3 border-b pb-2">Desempenho Base</h4>
                         <ul class="space-y-2 text-sm text-gray-600">
@@ -366,7 +384,6 @@
                         </ul>
                     </div>
 
-                    <!-- Bônus Blue Blood -->
                     <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 relative overflow-hidden">
                         <i class="fa-solid fa-venus absolute -bottom-4 -right-4 text-6xl text-senai-lightblue opacity-10"></i>
                         <h4 class="font-bold text-senai-blue mb-3 border-b border-blue-200 pb-2 flex items-center gap-2">
@@ -384,7 +401,6 @@
                     </div>
                 </div>
 
-                <!-- Pontuação Final -->
                 <div class="mt-6 p-4 bg-senai-orange rounded-xl text-white flex justify-between items-center shadow-lg">
                     <span class="font-heading font-bold text-xl uppercase tracking-wider">Pontuação Final</span>
                     <span class="font-heading font-extrabold text-4xl">${item.scores.total}</span>
@@ -399,12 +415,11 @@
             document.getElementById('detailsModal').classList.add('hidden');
         }
 
-        // Fechar modal clicando fora
         window.onclick = function(event) {
-            const modal = document.getElementById('detailsModal');
-            if (event.target === modal) {
-                closeModal();
-            }
+            const detailsModal = document.getElementById('detailsModal');
+            const templateModal = document.getElementById('templateModal');
+            if (event.target === detailsModal) closeModal();
+            if (event.target === templateModal) closeTemplateModal();
         }
     </script>
 </body>
